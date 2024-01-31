@@ -1,13 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sidebar } from 'react-pro-sidebar';
+import { Menu, Sidebar,MenuItem } from 'react-pro-sidebar';
 
 const SideBar = () => {
     return (
         <div className="sidebar">
             <Sidebar
-            backgroundColor='white'
-            ></Sidebar>
+            collapsed = 'true'
+            backgroundColor='red'
+            width = '250px'
+            collapsedWidth='100px'
+            ><Menu>
+                <MenuItem >Profile
+                </MenuItem>
+                </Menu>
+                </Sidebar>
         </div>
     );
 };

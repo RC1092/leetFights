@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import SideBar from './sideBar';
+import Sidebar from './sideBar';
 import Topbar from './topBar';
 //import Home from './Home';
 
@@ -13,7 +13,7 @@ function App() {
     <Router>
     <div className="app">
         <Topbar />
-        <SideBar />
+        <Sidebar />
         <Routes>
         <Route path="/" exact component={<div></div>} />
 

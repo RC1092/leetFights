@@ -1,9 +1,10 @@
 import React from 'react';
-
+import Logo from './Logo2.jpg';
+import './topbar.css';
 const Topbar = () => {
     return (
         <div className="topbar">
-            <h1>My Logo</h1>
+            <img src={Logo} alt='LOGO' ></img>
         </div>
     );
 };
