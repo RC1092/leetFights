@@ -1,6 +1,6 @@
 import React, { useEffect ,useState} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
+import axios from 'axios';
 import Sidebar from './sideBar';
 import Topbar from './topBar';
 
@@ -12,13 +12,25 @@ import Topbar from './topBar';
 import './App.css';
 
 
-
 function App() {
 
-  const [backEndData,setBackEndData] = useState([{}])
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+      fetchData();
+  }, []);
+
+  const fetchData = async () => {
+      try {
+          const response = await axios.get('http://localhost:8000/questionData/container-with-most-water');
+          setData(response.data);
+      } catch (error) {
+          console.error('Error fetching data:', error);
+      }
+  };
 
 
-    useEffect(()=>{
+/*     useEffect(()=>{
       fetch("/check",{
         method:"GET",
         credentials:"include",
@@ -35,7 +47,7 @@ function App() {
     
   
 
-  console.log(backEndData)
+  console.log(backEndData) */
 
   return (
     <Router>
@@ -43,16 +55,10 @@ function App() {
         <Topbar />
        
         <Routes>
-<<<<<<< HEAD
-        <Route path="/fights" exact component={<div>
-          
+        <Route path="/" exact element={<div>
+          data
         </div>} />
-=======
-        <Route path="/" exact element={<div></div>} />
->>>>>>> 0d4c8ce97a79397f193f292dfad958f9189aefe0
-
         </Routes>
-        {/* Add more routes as needed */}
     </div>
 </Router>
   );

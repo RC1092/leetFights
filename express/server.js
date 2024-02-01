@@ -1,10 +1,7 @@
 const express = require("express")
 
-
-
-
 const app = express()
-
+const cors = require('cors');
 
 const PORT = 8000;
 
@@ -20,6 +17,7 @@ const headers = {
 
 
 app.get('/check',(req,res)=>{
+    res.setHeader("Access-Control-Allow-Origin", "*");
     fetch(url, {
         method: 'POST',
         headers: headers,
@@ -55,11 +53,32 @@ app.get('/check',(req,res)=>{
                 filters: {}
             }
         })
-    })
-    .then(data=>res.json(data))
+    }).then(response=>response.json())
+    .then(data=>res.json(data.data.questionList.questions[10].titleSlug))
     ;
 })
 
+app.get('/questionData/:name',(req,res) =>{
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    fetch(url, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify({
+            query: `
+            query questionContent($titleSlug: String!) {
+                question(titleSlug: $titleSlug) {
+                  content
+                  mysqlSchemas
+                }
+              }
+              
+            `,
+            variables: {titleSlug: req.params.name}
+        })
+    }).then(response=>response.json())
+    .then(data=>res.json(data.data.question.content))
+    ;
+})
 
 app.listen(PORT,(req,res)=>{
     console.log("Listening at port:",PORT)
