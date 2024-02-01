@@ -13,9 +13,11 @@ function App() {
     <Router>
     <div className="app">
         <Topbar />
-        <Sidebar />
+       
         <Routes>
-        <Route path="/" exact component={<div></div>} />
+        <Route path="/fights" exact component={<div>
+          
+        </div>} />
 
         </Routes>
         {/* Add more routes as needed */}
