@@ -16,6 +16,7 @@ function App() {
 
   const [data, setData] = useState({});
 
+
   useEffect(() => {
       fetchData();
   }, []);
@@ -23,6 +24,7 @@ function App() {
   const fetchData = async () => {
       try {
           const response = await axios.get('http://localhost:8000/questionData/container-with-most-water');
+          console.log(response);
           setData(response.data);
       } catch (error) {
           console.error('Error fetching data:', error);
@@ -53,10 +55,10 @@ function App() {
     <Router>
     <div className="app">
         <Topbar />
-       
+        <div dangerouslySetInnerHTML={{ __html: data }} />
         <Routes>
         <Route path="/" exact element={<div>
-          data
+          
         </div>} />
         </Routes>
     </div>
