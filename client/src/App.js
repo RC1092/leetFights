@@ -1,8 +1,10 @@
+/* eslint-disable no-template-curly-in-string */
 import React, { useEffect ,useState} from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
 import Sidebar from './sideBar';
 import Topbar from './topBar';
+import {UnControlled as CodeMirror} from 'react-codemirror2'
 
 
 
@@ -17,13 +19,20 @@ function App() {
   const [data, setData] = useState({});
 
 
+
+
   useEffect(() => {
       fetchData();
   }, []);
 
   const fetchData = async () => {
       try {
-          const response = await axios.get('http://localhost:8000/questionData/container-with-most-water');
+      
+        var num = Math.floor(Math.random()*100);
+          //console.log(num);
+          const name = await axios.get(`http://localhost:8000/check/${num}`);
+          console.log(name);
+          const response = await axios.get(`http://localhost:8000/questionData/${name.data}`);
           console.log(response);
           setData(response.data);
       } catch (error) {
@@ -32,35 +41,24 @@ function App() {
   };
 
 
-/*     useEffect(()=>{
-      fetch("/check",{
-        method:"GET",
-        credentials:"include",
-      }).then(
-        response => response.json()
-      ).then(
-        data=>{
-          setBackEndData(data)
-        }
-      ).catch(e => {
-        console.log(e);
-    });
-    },[])
-    
-  
-
-  console.log(backEndData) */
 
   return (
     <Router>
     <div className="app">
         <Topbar />
-        <div dangerouslySetInnerHTML={{ __html: data }} />
-        <Routes>
-        <Route path="/" exact element={<div>
-          
-        </div>} />
-        </Routes>
+        <div dangerouslySetInnerHTML={{ __html: data }} className='standardDiv' />
+        <CodeMirror className='editorDiv'
+  value='<h1>I ♥ react-codemirror2</h1>'
+  options={{
+    mode: 'xml',
+    theme: 'material',
+    lineNumbers: true
+  }}
+  onChange={(editor, data, value) => {
+  }}
+/>
+
+      
     </div>
 </Router>
   );

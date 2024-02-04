@@ -5,7 +5,9 @@ const cors = require('cors');
 
 const PORT = 8000;
 
-
+process.on('uncaughtException', function (error) {
+    console.log(error.stack);
+ });
 
 
 const url = 'http://leetcode.com/graphql/';
@@ -16,7 +18,8 @@ const headers = {
 };
 
 
-app.get('/check',(req,res)=>{
+app.get('/check/:num',(req,res)=>{
+    
     res.setHeader("Access-Control-Allow-Origin", "*");
     fetch(url, {
         method: 'POST',
@@ -54,7 +57,7 @@ app.get('/check',(req,res)=>{
             }
         })
     }).then(response=>response.json())
-    .then(data=>res.json(data.data.questionList.questions[10].titleSlug))
+    .then(data=>res.json(data.data.questionList.questions[req.params.num].titleSlug))
     ;
 })
 
