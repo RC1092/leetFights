@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
 import Sidebar from './sideBar';
 import Topbar from './topBar';
-import {UnControlled as CodeMirror} from 'react-codemirror2'
+import EditArea from './codeArea';
 
 
 
@@ -40,23 +40,20 @@ function App() {
       }
   };
 
-
+  const [value, setValue] = React.useState("console.log('hello world!');");
+  const onChange = React.useCallback((val, viewUpdate) => {
+    console.log('val:', val);
+    setValue(val);
+  }, []);
 
   return (
     <Router>
     <div className="app">
         <Topbar />
+        <div className='mainArea'>
         <div dangerouslySetInnerHTML={{ __html: data }} className='standardDiv' />
-        <CodeMirror className='editorDiv'
-  value='<h1>I ♥ react-codemirror2</h1>'
-  options={{
-    mode: 'xml',
-    theme: 'material',
-    lineNumbers: true
-  }}
-  onChange={(editor, data, value) => {
-  }}
-/>
+        <div className='standardDiv'><EditArea></EditArea></div>
+        </div>
 
       
     </div>
