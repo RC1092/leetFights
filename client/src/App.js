@@ -5,7 +5,7 @@ import axios from 'axios';
 import Sidebar from './sideBar';
 import Topbar from './topBar';
 import EditArea from './codeArea';
-
+import FrontPage from './homepage';
 
 
 //import Home from './Home';
@@ -48,15 +48,19 @@ function App() {
 
   return (
     <Router>
-    <div className="app">
+      <Routes>
+      <Route path="/" element={<FrontPage/>}>    
+      </Route>
+          <Route path="/fight" element={<div className="app">
         <Topbar />
         <div className='mainArea'>
         <div dangerouslySetInnerHTML={{ __html: data }} className='standardDiv' />
         <div className='standardDiv'><EditArea></EditArea></div>
         </div>
-
+         </div>} />
       
-    </div>
+      </Routes>
+    
 </Router>
   );
 }

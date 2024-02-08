@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Editor from "@monaco-editor/react"
 import './App.css'
 
@@ -40,11 +40,12 @@ function EditArea() {
   }
 
   return (
+    
     <div className="App">
-      <button onClick={() => setFileName("index.html")}>
+      <button onClick={() => setFileName("script.py")}>
         Switch to python
       </button>
-      <button onClick={() => setFileName("script.py")}>
+      <button onClick={() => setFileName("code.js")}>
         Switch to javascript
       </button>
       <button onClick={() => getEditorValue()}>
