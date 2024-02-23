@@ -13,15 +13,37 @@
   }
 }
 
+.buttons {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .standardDiv {
-  padding: 15px;
-  height: 86vh;
-  width: 100vh;
+  padding-left: 10px;
+  height: 91.3vh;
+  width: 90vh;
   overflow: auto;
-  box-sizing: border-box;
-  border-right: 10px #282c34;
+
+ 
+}
+.standardDiv2 {
+  padding-right: 8px;
+  height: 91.3vh;
+  width: 120vh;
+  overflow: auto;
+
 
 }
+.innerDiv1 {
+  padding-left: 10px;
+  height: 91.3vh;
+  width: 115vh;
+  overflow: auto;
+
+  
+}
+
+
 
 
 

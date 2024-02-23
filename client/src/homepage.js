@@ -9,8 +9,8 @@ const FrontPage = () => {
   
     <StyledFrontPage className='homeMain'>
       
-      <h1 class = 'text'>Welcome to LeetFights</h1>
-      <p class = 'text'>
+      <h1 className = 'text'>Welcome to LeetFights</h1>
+      <p className = 'text'>
         Welcome to the Coding Battle Arena, where two developers face off in a
         thrilling coding competition!
       </p>
