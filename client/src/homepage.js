@@ -1,23 +1,67 @@
-import React from 'react';
+
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React, {useContext, useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import './homepage.css';
 
-const FrontPage = () => {
-  return (
- 
+
+
+function joinLobby (socket, id,setter,curState) {
+  socket.emit('playerAdd',id);
+
+  setter(!curState);
+}
+function exitMatchMaking(socket,id,setter, curState){
+  socket.emit('RemovePlayer',id)
+  setter(!curState);
+}
+
+const player = {
+  id: Math.random().toString(36).substring(7),
+};
+
+const FrontPage = ({socket}) => {
+  const [curState, setcurState] = useState(false);
+ const history = useNavigate();
   
-    <StyledFrontPage className='homeMain'>
-      
+
+  socket.on('waiting', (players) => {
+    console.log(players);
+  });
+
+  socket.on('Matched',(datas) => {
+    
+    console.log('Matched');
+    console.log(datas);
+    datas[0] = player.id;
+    history('/fight' ,    
+    { state: datas });
+  });
+
+  if(curState === true){
+    return (<StyledFrontPage className='homeMain'>
+    <h1 className = 'text'>Welcome to LeetFights</h1>
+    <p className = 'text'>
+     Searching for opponents.....
+    </p>
+    <button className="start-button"  onClick = {() => exitMatchMaking(socket,player.id,setcurState,curState)} >
+  Stop Matching
+        </button>
+    button
+
+  </StyledFrontPage>);
+  }
+  return (
+      <StyledFrontPage className='homeMain'>
       <h1 className = 'text'>Welcome to LeetFights</h1>
       <p className = 'text'>
         Welcome to the Coding Battle Arena, where two developers face off in a
         thrilling coding competition!
       </p>
       <div className="button-container">
-      <Link className="start-button" to="/fight">
+      <button className="start-button"  onClick = {() => joinLobby(socket,player.id,setcurState,curState)} >
   Start Battle
-</Link>
+        </button>
         <button className="invite-button">Invite Friend</button>
       </div>
     </StyledFrontPage>

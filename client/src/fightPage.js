@@ -1,8 +1,9 @@
-import React, { useEffect ,useState,useRef} from 'react';
+import React, { useEffect ,useState,useRef, useContext} from 'react';
 import axios from 'axios';
 import Topbar from './topBar';
 import Editor from "@monaco-editor/react"
 import "./App.css"
+import { useNavigate,useLocation } from 'react-router-dom';
 
 
 
@@ -20,13 +21,13 @@ let files = {
   }
 }
 
-function EditArea({id , name}) {
+function EditArea({Qid ,Pid,name, socketDat}) {
 
   const [fileName, setFileName] = useState("script.py"); // change to "index.html"
   const [result,setResult] = useState('NO data');
   const editorRef = useRef(null);
   const file = files[fileName];
-
+  
   function handleEditorDidMount(editor, monaco) {
     editorRef.current = editor;
   }
@@ -35,12 +36,18 @@ function EditArea({id , name}) {
     const formData = {
       text:editorRef.current.getValue(),
       lang:files[fileName].language,
-      Qid:id,
-      PName: name
+      Qid:Qid,
+      PName: name,
+      Pid : Pid
     };
 
     try {
-     await fetch('http://localhost:8000/solution/checkSol', {
+
+      socketDat.emit('CheckSol',formData);
+      socketDat.on('Results',(data) => {
+        console.log(data);
+      })
+     /*  await fetch('http://localhost:8000/solution/checkSol', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -56,10 +63,10 @@ function EditArea({id , name}) {
             setResult(`Wrong Answer. ${results.total_correct}/${results.total_testcases} testcases passed. `)
           }
           else{
-            setResult("No error");
+            setResult(`No error :${results} `);
           }
         }
-      );
+      ); */
       
   
   } catch (error) {
@@ -96,44 +103,30 @@ function EditArea({id , name}) {
   )
 }
 
-const fetchData = async (setData) => {
-  try {
-  
-    var num = Math.floor(Math.random()*50);
-      //console.log(num);
-      const name = await axios.get(`http://localhost:8000/check/${num}`);
-      problemName = name.data.titleSlug;
-      problemId = name.data.frontendQuestionId;
-      
-      const responseSnipp = await axios.post(`http://localhost:8000/questionSnippets/${problemName}`);
-      
-      files['code.js'].value = responseSnipp.data[6].code;
-      files['script.py'].value = responseSnipp.data[2].code;
-      const response = await axios.get(`http://localhost:8000/questionData/${name.data.titleSlug}/${name.data.frontendQuestionId}`);
 
-      setData(response.data);
-  } catch (error) {
-      console.error('Error fetching data:', error);
-  }
-};
 
-function FightPage(){
-    const [data, setData] = useState(false);
+const FightPage = ({socket}) => {
 
-    useEffect(() => {
-        fetchData(setData);
-    }, []);
+    const location  =  useLocation();
+    const data = location.state;
 
-    if(data === false){
-      return <div>Loading...</div>
-    }
+
+
+    socket.on('end', (data) => {
+      console.log('Game ended');
+        console.log(data);
+      })
+
+    files['code.js'].value = data[3]
+    files['script.py'].value = data[4];
+    console.log(data[0]);
 
     return (
         <div className="app">
         <Topbar />
         <div className='mainArea'>
-        <div dangerouslySetInnerHTML={{ __html: data }} className='standardDiv' />
-        <div className='standardDiv2'><EditArea id={problemId} name={problemName} ></EditArea>
+        <div dangerouslySetInnerHTML={{ __html: data[5] }} className='standardDiv' />
+        <div className='standardDiv2'><EditArea Qidid={data[2]} Pid={data[0]} name={data[1]} socketDat = {socket} ></EditArea>
        
         </div>
         </div>

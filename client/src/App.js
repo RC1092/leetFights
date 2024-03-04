@@ -1,32 +1,28 @@
 /* eslint-disable no-template-curly-in-string */
-import React, { useEffect ,useState} from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-
 import FrontPage from './homepage';
 import FightPage from './fightPage';
-
-
-//import Home from './Home';
-
-//import logo from './logo.svg';
+import io from 'socket.io-client';
 import './App.css';
-
 
 function App() {
 
 
+  const socket = io('http://localhost:9000');
 
   return (
+   
     <Router>
+   
       <Routes>
-      <Route path="/" element={<FrontPage/>}>    
+      <Route path="/" element={<FrontPage socket = {socket} />}>    
       </Route>
-          <Route path="/fight" element={<FightPage/>}/>
-            
-      
+          <Route path="/fight" element={<FightPage socket = {socket}/>}/>      
       </Routes>
-    
+      
 </Router>
+
   );
 }
 
