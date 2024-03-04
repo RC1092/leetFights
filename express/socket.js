@@ -32,9 +32,6 @@ module.exports = function(server) {
                
                 var room = new Room(player1,player2,100,socket1,socket2);
                 socket1.emit('Matched',datas);
-                console.log(player1);
-                console.log(player2);
-                console.log(players);
                 socket2.emit('Matched',datas);
                 Rooms.push(room);
             }
