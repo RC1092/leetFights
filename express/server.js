@@ -5,6 +5,10 @@ const socket = require('./socket'); // Import the socket module
 const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
+process.on('uncaughtException', function (error) {
+    console.log(error.stack);
+ });
+
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');

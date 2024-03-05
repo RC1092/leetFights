@@ -3,6 +3,11 @@ const socketIO = require('socket.io');
 
 const axios = require( 'axios' );
 const Room = require('./room');
+
+process.on('uncaughtException', function (error) {
+    console.log(error.stack);
+ });
+
 module.exports = function(server) {
     const io = socketIO(server,{
         cors: {
