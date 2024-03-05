@@ -30,7 +30,7 @@ module.exports = function(server) {
                 
                 var socket2 = sockets.shift();
                
-                var room = new Room(player1,player2,100,socket1,socket2);
+                var room = new Room(player1,player2,300,socket1,socket2);
                 socket1.emit('Matched',datas);
                 socket2.emit('Matched',datas);
                 Rooms.push(room);
@@ -43,7 +43,8 @@ module.exports = function(server) {
         socket.on('RemovePlayer', (id) => {
             const index = players.indexOf(id);
                 if (index > -1) { // only splice array when item is found
-                        players.splice(index, 1); // 2nd parameter means remove one item only
+                        players.splice(index, 1);
+                        sockets.splice(index,1) ;// 2nd parameter means remove one item only
             }
         })
 

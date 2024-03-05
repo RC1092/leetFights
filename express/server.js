@@ -12,15 +12,6 @@ app.use((req, res, next) => {
     next();
 });
 app.use(express.json());
-
-
-
-// Import API routes
-const apiRoutes = require('./api');
-
-// Use API routes
-
-
 // Initialize Socket.IO
 socket(server);
 

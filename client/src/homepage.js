@@ -1,4 +1,4 @@
-
+'use strict';
 import styled from 'styled-components';
 import React, {useContext, useState} from 'react';
 import { useNavigate } from 'react-router-dom';

@@ -30,10 +30,17 @@ class Room {
               socket.emit('Results',results.runtime_error);
             }
             else if(results.status_msg === 'Wrong Answer'){
-              socket.emit("Results",`Wrong Answer. ${results.total_correct}/${results.total_testcases} testcases passed. `)
+              socket.emit("Results",`Wrong Answer. ${results.total_correct}/${results.total_testcases} testcases passed.     
+              Last testcase: ${results.last_testcase}      
+              expected output:${results.expected_output}      
+              Code output: ${results.code_output} `)    
             }
+            else if(results.status_msg === 'Accepted'){
+                this.endGame(socket);
+                socket.emit('Results',`Correct solution`);
+              }
             else{
-              socket.emit('Results',`No error :${results} `);
+              socket.emit('Results',`Results :${results} `);
             }
           }
         );
@@ -44,7 +51,7 @@ class Room {
             this.isGameStarted = true;
             console.log("Game started!");
             this.timer = setTimeout(() => {
-                this.endGame();
+                this.endGame(null);
             }, this.durationInSeconds * 1000);
         } else {
             console.log("Game is already started.");
@@ -61,10 +68,19 @@ class Room {
     getid(){
         return this.roomid;
     }
-    endGame() {
-       
+    endGame(socket) {
+       if(socket == this.socket1){
         this.socket1.emit('end',this.player1);
         this.socket2.emit('end',this.player1);
+       }
+       else if (socket == this.socket2){
+        this.socket1.emit('end',this.player2);
+        this.socket2.emit('end',this.player2);
+       }
+       else{
+        this.socket1.emit('end','timer');
+        this.socket2.emit('end','timer');
+       }
         console.log("Game ended!");
         this.isGameStarted = false;
         // Check task completion and determine winner

@@ -1,4 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
+'use strict';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import FrontPage from './homepage';
