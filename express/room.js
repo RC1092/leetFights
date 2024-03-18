@@ -26,7 +26,10 @@ class Room {
         }).then(response =>response.json()).then( 
           results => {
             console.log(results);
-            if(results.status_msg === 'Runtime Error' ){
+            if(results == 'e'){
+                socket.emit('Results', 'Too many attempts please wait a few seconds ');
+            }
+            else if(results.status_msg === 'Runtime Error' ){
               socket.emit('Results',results.runtime_error);
             }
             else if(results.status_msg === 'Wrong Answer'){
@@ -43,7 +46,7 @@ class Room {
               socket.emit('Results',`Results :${results} `);
             }
           }
-        );
+        ).catch(error => socket.emit('Results', 'Too many attempts please wait a few seconds '));
     }
 
     startGame() {

@@ -146,48 +146,52 @@ app.post('/solution/checkSol', async (req, res) => {
         body: JSON.stringify(dataForm),
         redirect: "follow"
     };
+  try {
+    
+      let int_id = await fetch(`https://leetcode.com/problems/${data.PName}/submit/`, requestOptions)
+          .then((response) => response.json())
+          
+            console.log(int_id)
+      int_id = int_id.submission_id
+          
+    
+      const myHeaders = new Headers();
+    myHeaders.append("referer", `https://leetcode.com/problems/${data.PName}/`);
+    myHeaders.append("content-type", "application/json");
+    myHeaders.append("x-csrftoken", "gFO2L0Ua9b26LCcJZ7hJgE41kSlLQjriQtRmhpfBUnJ3eNCJOwNldMSYmSenN5n2");
+    myHeaders.append("cookie", "LEETCODE_SESSION=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfYXV0aF91c2VyX2lkIjoiMTI0Mjg1MTMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5ZjhiZTc1NTQ5NzQ4ZDI3ZDZhMDJkZDlkZGRlYmY4YWVlZmVmMWFhZjAzMGU1Y2VhOGM4YzU3MTczNjU2NTRjIiwiaWQiOjEyNDI4NTEzLCJlbWFpbCI6Inh5enl4Njk0MjlAZ21haWwuY29tIiwidXNlcm5hbWUiOiJsZWV0RmlnaHRzIiwidXNlcl9zbHVnIjoibGVldEZpZ2h0cyIsImF2YXRhciI6Imh0dHBzOi8vYXNzZXRzLmxlZXRjb2RlLmNvbS91c2Vycy9kZWZhdWx0X2F2YXRhci5qcGciLCJyZWZyZXNoZWRfYXQiOjE3MTA3MTc2OTIsImlwIjoiMTQyLjE2Ny4xMi42MSIsImlkZW50aXR5IjoiNGYwOWUwMWM4M2Q2OTEwMGMzNjNjMzNhZWNmZWY5ZjgiLCJzZXNzaW9uX2lkIjo1Nzc5NTk0NiwiX3Nlc3Npb25fZXhwaXJ5IjoxMjA5NjAwfQ.YTfGP8ECOngrMGQV4ZZcXwpwOxiYPbDjEXkevtQKa9U; csrftoken=gFO2L0Ua9b26LCcJZ7hJgE41kSlLQjriQtRmhpfBUnJ3eNCJOwNldMSYmSenN5n2");
+    
+    const requestOptions2= {
+      method: "GET",
+      headers: myHeaders,
+      redirect: "follow"
+    };
+    
   
-    let int_id = await fetch(`https://leetcode.com/problems/${data.PName}/submit/`, requestOptions)
-        .then((response) => response.json())
-        
-          console.log(int_id)
-    int_id = int_id.submission_id
-        
+    let recieved  = false;
+    while(recieved == false){
+      fetch(`https://leetcode.com/submissions/detail/${int_id}/check/`, requestOptions2)
+    .then(response => response.json()).
+    then(result => {
+    if(result.state == 'SUCCESS'){
+      recieved = true;
+      console.log(result);
+      res.json(result)
   
-    const myHeaders = new Headers();
-  myHeaders.append("referer", `https://leetcode.com/problems/${data.PName}/`);
-  myHeaders.append("content-type", "application/json");
-  myHeaders.append("x-csrftoken", "gFO2L0Ua9b26LCcJZ7hJgE41kSlLQjriQtRmhpfBUnJ3eNCJOwNldMSYmSenN5n2");
-  myHeaders.append("cookie", "LEETCODE_SESSION=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfYXV0aF91c2VyX2lkIjoiMTI0Mjg1MTMiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJhbGxhdXRoLmFjY291bnQuYXV0aF9iYWNrZW5kcy5BdXRoZW50aWNhdGlvbkJhY2tlbmQiLCJfYXV0aF91c2VyX2hhc2giOiI5ZjhiZTc1NTQ5NzQ4ZDI3ZDZhMDJkZDlkZGRlYmY4YWVlZmVmMWFhZjAzMGU1Y2VhOGM4YzU3MTczNjU2NTRjIiwiaWQiOjEyNDI4NTEzLCJlbWFpbCI6Inh5enl4Njk0MjlAZ21haWwuY29tIiwidXNlcm5hbWUiOiJsZWV0RmlnaHRzIiwidXNlcl9zbHVnIjoibGVldEZpZ2h0cyIsImF2YXRhciI6Imh0dHBzOi8vYXNzZXRzLmxlZXRjb2RlLmNvbS91c2Vycy9kZWZhdWx0X2F2YXRhci5qcGciLCJyZWZyZXNoZWRfYXQiOjE3MTA3MTc2OTIsImlwIjoiMTQyLjE2Ny4xMi42MSIsImlkZW50aXR5IjoiNGYwOWUwMWM4M2Q2OTEwMGMzNjNjMzNhZWNmZWY5ZjgiLCJzZXNzaW9uX2lkIjo1Nzc5NTk0NiwiX3Nlc3Npb25fZXhwaXJ5IjoxMjA5NjAwfQ.YTfGP8ECOngrMGQV4ZZcXwpwOxiYPbDjEXkevtQKa9U; csrftoken=gFO2L0Ua9b26LCcJZ7hJgE41kSlLQjriQtRmhpfBUnJ3eNCJOwNldMSYmSenN5n2");
+    }
   
-  const requestOptions2= {
-    method: "GET",
-    headers: myHeaders,
-    redirect: "follow"
-  };
   
-
-  let recieved  = false;
-  while(recieved == false){
-    fetch(`https://leetcode.com/submissions/detail/${int_id}/check/`, requestOptions2)
-  .then(response => response.json()).
-  then(result => {
-  if(result.state == 'SUCCESS'){
-    recieved = true;
-    console.log(result);
-    res.json(result)
-
+  
+      
+    });
+      
+      
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+    
+  } catch (error) {
+    res.json('e')
   }
-
-
-
-    
-  });
-    
-    
-    await new Promise(resolve => setTimeout(resolve, 1000));
-  }
-  
 });
 
   
