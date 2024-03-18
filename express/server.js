@@ -4,6 +4,7 @@ const http = require('http');
 const socket = require('./socket'); // Import the socket module
 const cors = require('cors');
 const app = express();
+const api = require('./api');
 const server = http.createServer(app);
 process.on('uncaughtException', function (error) {
     console.log(error.stack);

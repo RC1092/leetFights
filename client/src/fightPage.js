@@ -6,12 +6,10 @@ import Topbar from './topBar';
 import Editor from "@monaco-editor/react"
 import "./App.css"
 import { useNavigate,useLocation } from 'react-router-dom';
-import Countdown from 'react-countdown';
 
 
 
-var problemName = "";
-var problemId = 0;
+
 let files = {
   "script.py": {
     name: "script.py",
@@ -24,6 +22,8 @@ let files = {
   }
 }
 
+
+
 function EditArea({Qid ,Pid,name, socketDat}) {
 
   const [fileName, setFileName] = useState("script.py"); // change to "index.html"
@@ -32,6 +32,10 @@ function EditArea({Qid ,Pid,name, socketDat}) {
   const editorRef = useRef(null);
   const file = files[fileName];
   
+  const handleChange = (event) => {
+    setFileName(event.target.value);
+  };
+
   function handleEditorDidMount(editor, monaco) {
     editorRef.current = editor;
   }
@@ -66,20 +70,19 @@ function EditArea({Qid ,Pid,name, socketDat}) {
 
   return (   
    
-      <div className=' innerDiv1'>
-      <button onClick={() => setFileName("script.py")} className='buttons'>
-        Switch to python
+    <div className="dropdown-container" >
+      <div classname ='containerfortop'>
+      <select value={fileName} onChange={handleChange} className='dropdown'>
+        <option value="script.py">Python</option>
+        <option value="code.js">JavaScript</option>
+      </select>
+      <button className= "submitButton" onClick={ fetching === true ?()=>{} :() => getEditorValue()}>
+        {fetching == true ? 'fetching' : 'Submit'}
       </button>
-      <button onClick={() => setFileName("code.js")}>
-        Switch to javascript
-      </button>
-      <button onClick={ fetching === true ?()=>{} :() => getEditorValue()}>
-        {fetching == true ? 'fetchong' : 'Submit'}
-      </button>
-      
+      </div>
       <Editor
-        height="60vh"
-        width="80vh"
+        height="70vh"
+        width="107vh"
         theme="vs-dark"
         onMount={handleEditorDidMount}
         path={file.name}

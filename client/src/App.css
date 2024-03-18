@@ -21,7 +21,7 @@
 .standardDiv {
   padding-left: 10px;
   height: 91.3vh;
-  width: 90vh;
+  width: 96vh;
   overflow: auto;
 
  
@@ -37,12 +37,64 @@
 .innerDiv1 {
   padding-left: 10px;
   height: 91.3vh;
-  width: 85vh;
+  width: 107vh;
   overflow: auto;
 
   
 }
+.containerfortop {
+  gap: 100px; 
+  display: flex;
+  justify-content: space-between; /* Aligns items to the ends of the container */
+  align-items: center; /* Aligns items vertically within the container */
+}
 
+.dropdown {
+  width: 140px;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+}
+
+
+.submitButton {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 9px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19); /* Add shadows */
+}
+
+.submitButton:hover {
+  background-color: #45a049; /* Darker green on hover */
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 12px 40px 0 rgba(0,0,0,0.19); /* Add stronger shadows on hover */
+}
+/* Style for dropdown options */
+.dropdown option {
+  background-color: #fff;
+  color: #333;
+}
+
+/* Style for dropdown arrow */
+.dropdown::after {
+  content: '\25BC'; /* Unicode character for down arrow */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
 
 .overlay {
   position: fixed;

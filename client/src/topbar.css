@@ -14,3 +14,20 @@
     max-width: 15;
     font-size: 1.5rem;
   }
+
+  .timer {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .minutes, .seconds {
+    font-size: 24px;
+    padding: 5px 10px; /* Add padding to create space around the text */
+    border: 2px solid #ccc; /* Add border */
+    border-radius: 10px; /* Apply rounded corners */
+    margin-right: 5px; /* Adjust the spacing between minutes and seconds */
+  }
+  
+  .seconds {
+    margin-right: 0; /* Remove margin-right for the seconds to avoid extra space */
+  }

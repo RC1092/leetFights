@@ -11,9 +11,11 @@ const Topbar = ({state}) => {
         } else {
           // Render the countdown timer with only minutes and seconds
           return (
-            <span>
-              {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-            </span>
+            <div className="timer">
+            <span className="minutes">{String(minutes).padStart(2, '0')} </span>
+            <span className="colon">:</span>
+            <span className="seconds">{String(seconds).padStart(2, '0')} </span>
+          </div>
           );
         }
       };
